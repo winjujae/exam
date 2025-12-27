@@ -1,0 +1,10 @@
+artifact_location: file:///home/jubo/zb_lab/mlops/mlruns/1/models/m-15ebb61d2c914be29042f06adc3e3694/artifacts
+creation_timestamp: 1766215446242
+experiment_id: '1'
+last_updated_timestamp: 1766215447715
+model_id: m-15ebb61d2c914be29042f06adc3e3694
+model_type: null
+name: model
+source_run_id: 0b7ad77f1bc34207bbe93a363915cc8b
+status: 2
+status_message: null

@@ -1,0 +1,15 @@
+# 핵심 엔진 및 화면
+streamlit==1.52.2
+fastapi==0.125.0
+uvicorn==0.38.0
+requests==2.32.3
+
+# 데이터 및 통계 분석
+pandas
+numpy
+scikit-learn
+matplotlib
+joblib
+
+# 데이터 검증 (FastAPI용)
+pydantic

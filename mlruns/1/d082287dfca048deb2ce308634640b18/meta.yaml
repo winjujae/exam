@@ -1,0 +1,14 @@
+artifact_uri: file:///home/jubo/zb_lab/mlops/mlruns/1/d082287dfca048deb2ce308634640b18/artifacts
+end_time: 1766215458964
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: active
+run_id: d082287dfca048deb2ce308634640b18
+run_name: trial_18
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1766215457445
+status: 3
+tags: []
+user_id: jubo

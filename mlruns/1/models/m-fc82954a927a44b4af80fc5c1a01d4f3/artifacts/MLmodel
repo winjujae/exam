@@ -1,0 +1,22 @@
+artifact_path: /home/jubo/zb_lab/mlops/mlruns/1/models/m-fc82954a927a44b4af80fc5c1a01d4f3/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.16
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+mlflow_version: 3.7.0
+model_id: m-fc82954a927a44b4af80fc5c1a01d4f3
+model_size_bytes: 25076
+model_uuid: m-fc82954a927a44b4af80fc5c1a01d4f3
+prompts: null
+run_id: 64f723848ce149ffafc464bdbdc51e6b
+utc_time_created: '2025-12-20 07:40:44.327349'
