@@ -10,6 +10,7 @@ numpy
 scikit-learn
 matplotlib
 joblib
+st-gsheets-connection
 
 # 데이터 검증 (FastAPI용)
 pydantic
