@@ -1,42 +1,43 @@
-# app_st.py
 import streamlit as st
-import requests
 import pandas as pd
-import matplotlib.pyplot as plt
+import random
+import os
 
-st.title("🏭 제조 공정 수율 예측 대시보드")
-st.write("설비 데이터를 입력하면 AI 모델이 수율을 예측합니다.")
-
-# 1. 사이드바에서 입력 받기
-st.sidebar.header("입력 파라미터")
-temp = st.sidebar.slider("온도 (Temperature)", 0.0, 100.0, 50.0)
-humid = st.sidebar.slider("습도 (Humidity)", 0.0, 100.0, 50.0)
-
-# 2. 버튼을 누르면 FastAPI 호출
-if st.button("예측 시작"):
-    # FastAPI 주소 (WSL 사용 시 127.0.0.1)
-    url = "http://127.0.0.1:8000/predict"
-    data = {"temperature": temp, "humidity": humid}
+# --- [재학습을 위한 데이터 저장 함수] ---
+def save_data(temp, humid, prediction):
+    file_name = "factory_logs.csv"
+    new_data = {"temp": temp, "humid": humid, "pred": prediction}
+    df = pd.DataFrame([new_data])
     
-    response = requests.post(url, json=data)
-    
-    if response.status_code == 200:
-        result = response.json()
-        prediction = result["prediction"]
-        
-        # 3. 결과 화면에 표시
-        st.success(f"예상 수율: {prediction} {result['unit']}")
-        
-        # 4. 통계학 전공자다운 시각화 추가
-        st.subheader("예측 분석 그래프")
-        df = pd.DataFrame({
-            "항목": ["기준 수율", "예측 수율"],
-            "값": [90.0, prediction]
-        })
-        
-        fig, ax = plt.subplots()
-        ax.bar(df["항목"], df["값"], color=['gray', 'skyblue'])
-        ax.set_ylim(0, 110)
-        st.pyplot(fig)
+    # 파일이 없으면 만들고, 있으면 추가
+    if not os.path.isfile(file_name):
+        df.to_csv(file_name, index=False)
     else:
-        st.error("FastAPI 서버와 통신에 실패했습니다.")
+        df.to_csv(file_name, mode='a', header=False, index=False)
+
+# --- [화면 구성] ---
+st.title("🏭 제조 수율 예측 및 데이터 수집기")
+
+temp = st.slider("현재 공정 온도", 0, 100, 50)
+humid = st.slider("현재 공정 습도", 0, 100, 50)
+
+if st.button("수율 예측하기"):
+    # 1. 원래 FastAPI에 있던 로직을 여기서 직접 수행 (requests.post 필요 없음!)
+    # 실제 모델이 있다면 여기서 model.predict() 수행
+    prediction = (temp * 0.7) + (humid * 0.3) + random.uniform(-2, 2)
+    
+    # 2. 결과 출력
+    st.success(f"예측 수율: {prediction:.2f}%")
+    
+    # 3. [핵심] 재학습을 위한 데이터 로깅
+    save_data(temp, humid, prediction)
+    st.info("데이터가 'factory_logs.csv'에 저장되었습니다.")
+
+# --- [재학습용 데이터 확인 섹션] ---
+if st.checkbox("누적 데이터 확인하기"):
+    if os.path.exists("factory_logs.csv"):
+        logs = pd.read_csv("factory_logs.csv")
+        st.write(f"현재 수집된 데이터 수: {len(logs)}건")
+        st.dataframe(logs.tail(10)) # 최근 10건만 보기
+    else:
+        st.warning("아직 수집된 데이터가 없습니다.")
